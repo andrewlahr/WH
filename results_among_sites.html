@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Among-site synthesis</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Daily Flow & Montana Trout</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Overview</a>
+</li>
+<li>
+  <a href="methods.html">Methods</a>
+</li>
+<li>
+  <a href="results.html">Results</a>
+</li>
+<li>
+  <a href="results_among_sites.html">Among sites</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/YOUR-USERNAME/WH_BOR_Trout">
+    <span class="fa fa-github"></span>
+     
+    Source
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Among-site synthesis</h1>
+<h3 class="subtitle">What daily-scale flow effects reveal about brown
+trout population ecology in Montana</h3>
+
+</div>
+
+
+<!--
+=============================================================================
+THIS PAGE ANSWERS RESEARCH QUESTION 2.
+
+  RQ1 (results_by_site.html) -- where in the year does water buy the most trout?
+  RQ2 (this page)            -- what does that tell us about population ecology?
+  RQ3 (scenarios section)    -- how does it change under BoR futures?
+
+RQ2 is the part that makes this a population-ecology paper rather than a
+consulting report. The logic: if a beta(t) feature is REPRODUCIBLE ACROSS
+INDEPENDENT POPULATIONS, it is evidence about a mechanism. If it appears at one
+site only, it is either local hydrology or noise, and 43 years cannot tell those
+apart.
+
+Fourteen sites is not 14 replicates of one experiment -- they differ in
+regulation, geomorphology, and thermal regime. But they are 14 independent
+draws on the same question, and consistency across them is the strongest
+inferential lever available without a manipulative experiment.
+=============================================================================
+-->
+<div id="the-inferential-logic" class="section level1">
+<h1>The inferential logic</h1>
+<p>A single site gives ~43 annual observations. That is not enough to
+resolve a 365-point curve with confidence, and
+<code>results_by_site.html</code> says so explicitly for each site.</p>
+<p>What multiple sites buy is not more precision at any one site — it is
+the ability to ask whether a feature <strong>recurs</strong>. Three
+outcomes, and they mean different things:</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pattern across sites</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Same β(t) feature, same sign, most sites</td>
+<td>Evidence for a shared biological mechanism</td>
+</tr>
+<tr class="even">
+<td>Feature present but shifted in timing</td>
+<td>Mechanism is real, cued locally (elevation, thermal regime, run
+timing)</td>
+</tr>
+<tr class="odd">
+<td>Feature at one or two sites only</td>
+<td>Local hydrology or sampling noise. Do not build a mechanism on
+it.</td>
+</tr>
+</tbody>
+</table>
+<p>This section reports which of those three applies, for each part of
+the year, for recruitment and for survival separately.</p>
+<div id="the-comparison-is-only-valid-within-a-flow-lag-group"
+class="section level2">
+<h2>The comparison is only valid within a flow-lag group</h2>
+<p>The reasoning above assumes every site’s β(d) describes <strong>the
+same biological year</strong>. That assumption fails whenever the
+integrated population model selected different flow lags at different
+sites, and it did: a lag equal to the recruit lag puts the hydrograph in
+the <em>spawning</em> year, while a shorter lag puts it in the <em>age-0
+rearing</em> year.</p>
+<p>Day 200 under a spawning-year lag is the summer
+<strong>before</strong> spawning. Day 200 under a rearing-year lag is
+the first summer of a fish’s life. Those are different life stages, so
+agreement between them is not evidence of a shared mechanism — and
+disagreement is not evidence against one.</p>
+<p>Sites are therefore grouped by lag below, and agreement is computed
+<strong>within</strong> groups only.</p>
+<table>
+<caption>Flow lag selected per site by the IPM. Only sites sharing a
+hypothesis are directly comparable in the figures below.</caption>
+<thead>
+<tr class="header">
+<th align="left">site</th>
+<th align="right">flow_lag</th>
+<th align="left">hypothesis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="right">3</td>
+<td align="left">spawning-year conditions</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="right">2</td>
+<td align="left">age-0 rearing-year conditions</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="right">3</td>
+<td align="left">spawning-year conditions</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="right">2</td>
+<td align="left">age-0 rearing-year conditions</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="right">2</td>
+<td align="left">age-0 rearing-year conditions</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="right">2</td>
+<td align="left">age-0 rearing-year conditions</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>More than one flow lag is in use.</strong> The figures below
+separate sites by lag. Do not read across the groups: a feature
+appearing in both is not corroboration, because the two curves describe
+different years of the same fish’s life. If the manuscript needs a
+single across-site statement, it has to be made within one lag group,
+and the other group reported separately.</p>
+</blockquote>
+<hr />
+</div>
+</div>
+<div id="do-sites-share-a-βt-shape" class="section level1">
+<h1>1. Do sites share a β(t) shape?</h1>
+<p><img src="results_among_sites_files/figure-html/shared-shape-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="results_among_sites_files/figure-html/agreement-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><strong>rearing-year lag.</strong> Periods where at least 80% of
+sites agree, lasting two weeks or longer:</p>
+<ul>
+<li><strong>05 May to 25 May</strong> (21 days), effect negative</li>
+</ul>
+<p><strong>spawning-year lag.</strong> Periods where at least 80% of
+sites agree, lasting two weeks or longer:</p>
+<ul>
+<li><strong>01 Jan to 07 Apr</strong> (97 days), effect positive</li>
+<li><strong>04 May to 29 May</strong> (26 days), effect negative</li>
+<li><strong>07 Jul to 16 Aug</strong> (41 days), effect positive</li>
+<li><strong>19 Aug to 14 Dec</strong> (118 days), effect positive</li>
+</ul>
+<hr />
+</div>
+<div id="recruitment-and-survival-one-mechanism-or-two"
+class="section level1">
+<h1>2. Recruitment and survival: one mechanism or two?</h1>
+<p><img src="results_among_sites_files/figure-html/rec-vs-surv-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p>Across-site mean curves peak on <strong>04 Jul</strong> for
+recruitment and <strong>04 Jul</strong> for survival, and are correlated
+at r = <strong>0.51</strong> across the year.</p>
+<p>The two pathways move together. A single release window serves both —
+the best case for management, and worth stating plainly.</p>
+<hr />
+</div>
+<div
+id="does-the-shared-structure-line-up-with-brown-trout-life-history"
+class="section level1">
+<h1>3. Does the shared structure line up with brown trout life
+history?</h1>
+<p>This is the ecological test. β(t) is estimated with no biological
+input beyond the lag structure — it does not know when trout spawn. If
+the days it flags line up with known life-history transitions, that is
+independent corroboration. If they do not, either the mechanism is
+something other than the obvious one, or the curve is fitting noise.</p>
+<table>
+<caption>Mean flow sensitivity within each life-history stage, averaged
+across sites. Stage boundaries come from the timeline in R/09_figures.R
+– edit and cite them.</caption>
+<colgroup>
+<col width="29%" />
+<col width="15%" />
+<col width="16%" />
+<col width="12%" />
+<col width="17%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">site</th>
+<th align="left">process</th>
+<th align="left">stage</th>
+<th align="right">mean_beta</th>
+<th align="right">frac_positive</th>
+<th align="right">n_days</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">recruitment</td>
+<td align="left">emergence</td>
+<td align="right">-0.010</td>
+<td align="right">0.180</td>
+<td align="right">61</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">survival</td>
+<td align="left">emergence</td>
+<td align="right">-0.001</td>
+<td align="right">0.475</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">recruitment</td>
+<td align="left">emergence</td>
+<td align="right">0.000</td>
+<td align="right">0.033</td>
+<td align="right">61</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">survival</td>
+<td align="left">emergence</td>
+<td align="right">0.003</td>
+<td align="right">1.000</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">recruitment</td>
+<td align="left">emergence</td>
+<td align="right">0.005</td>
+<td align="right">0.590</td>
+<td align="right">61</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="left">survival</td>
+<td align="left">emergence</td>
+<td align="right">-0.002</td>
+<td align="right">0.443</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="left">recruitment</td>
+<td align="left">emergence</td>
+<td align="right">-0.002</td>
+<td align="right">0.344</td>
+<td align="right">61</td>
+</tr>
+<tr class="even">
+<td align="left">Madison.Norris</td>
+<td align="left">survival</td>
+<td align="left">emergence</td>
+<td align="right">-0.002</td>
+<td align="right">0.148</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Cascade</td>
+<td align="left">recruitment</td>
+<td align="left">emergence</td>
+<td align="right">-0.003</td>
+<td align="right">0.213</td>
+<td align="right">61</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="left">survival</td>
+<td align="left">emergence</td>
+<td align="right">-0.001</td>
+<td align="right">0.426</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="left">recruitment</td>
+<td align="left">emergence</td>
+<td align="right">-0.004</td>
+<td align="right">0.016</td>
+<td align="right">61</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Craig</td>
+<td align="left">survival</td>
+<td align="left">emergence</td>
+<td align="right">0.002</td>
+<td align="right">0.656</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">recruitment</td>
+<td align="left">first summer</td>
+<td align="right">0.003</td>
+<td align="right">0.859</td>
+<td align="right">92</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">survival</td>
+<td align="left">first summer</td>
+<td align="right">-0.006</td>
+<td align="right">0.196</td>
+<td align="right">92</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">recruitment</td>
+<td align="left">first summer</td>
+<td align="right">0.000</td>
+<td align="right">0.696</td>
+<td align="right">92</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">survival</td>
+<td align="left">first summer</td>
+<td align="right">0.001</td>
+<td align="right">0.880</td>
+<td align="right">92</td>
+</tr>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">recruitment</td>
+<td align="left">first summer</td>
+<td align="right">-0.001</td>
+<td align="right">0.413</td>
+<td align="right">92</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="left">survival</td>
+<td align="left">first summer</td>
+<td align="right">-0.002</td>
+<td align="right">0.391</td>
+<td align="right">92</td>
+</tr>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="left">recruitment</td>
+<td align="left">first summer</td>
+<td align="right">0.002</td>
+<td align="right">0.935</td>
+<td align="right">92</td>
+</tr>
+<tr class="even">
+<td align="left">Madison.Norris</td>
+<td align="left">survival</td>
+<td align="left">first summer</td>
+<td align="right">0.001</td>
+<td align="right">0.946</td>
+<td align="right">92</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Cascade</td>
+<td align="left">recruitment</td>
+<td align="left">first summer</td>
+<td align="right">0.002</td>
+<td align="right">0.500</td>
+<td align="right">92</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="left">survival</td>
+<td align="left">first summer</td>
+<td align="right">0.003</td>
+<td align="right">0.967</td>
+<td align="right">92</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="left">recruitment</td>
+<td align="left">first summer</td>
+<td align="right">0.003</td>
+<td align="right">1.000</td>
+<td align="right">92</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Craig</td>
+<td align="left">survival</td>
+<td align="left">first summer</td>
+<td align="right">-0.001</td>
+<td align="right">0.163</td>
+<td align="right">92</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">recruitment</td>
+<td align="left">first winter</td>
+<td align="right">0.003</td>
+<td align="right">0.694</td>
+<td align="right">121</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">survival</td>
+<td align="left">first winter</td>
+<td align="right">-0.001</td>
+<td align="right">0.256</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">recruitment</td>
+<td align="left">first winter</td>
+<td align="right">-0.001</td>
+<td align="right">0.000</td>
+<td align="right">121</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">survival</td>
+<td align="left">first winter</td>
+<td align="right">0.003</td>
+<td align="right">0.744</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">recruitment</td>
+<td align="left">first winter</td>
+<td align="right">0.002</td>
+<td align="right">0.777</td>
+<td align="right">121</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="left">survival</td>
+<td align="left">first winter</td>
+<td align="right">0.000</td>
+<td align="right">0.488</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="left">recruitment</td>
+<td align="left">first winter</td>
+<td align="right">0.002</td>
+<td align="right">0.868</td>
+<td align="right">121</td>
+</tr>
+<tr class="even">
+<td align="left">Madison.Norris</td>
+<td align="left">survival</td>
+<td align="left">first winter</td>
+<td align="right">0.000</td>
+<td align="right">0.107</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Cascade</td>
+<td align="left">recruitment</td>
+<td align="left">first winter</td>
+<td align="right">0.000</td>
+<td align="right">0.430</td>
+<td align="right">121</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="left">survival</td>
+<td align="left">first winter</td>
+<td align="right">-0.002</td>
+<td align="right">0.256</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="left">recruitment</td>
+<td align="left">first winter</td>
+<td align="right">0.004</td>
+<td align="right">1.000</td>
+<td align="right">121</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Craig</td>
+<td align="left">survival</td>
+<td align="left">first winter</td>
+<td align="right">-0.004</td>
+<td align="right">0.000</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">recruitment</td>
+<td align="left">incubation</td>
+<td align="right">0.003</td>
+<td align="right">0.694</td>
+<td align="right">121</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">survival</td>
+<td align="left">incubation</td>
+<td align="right">-0.001</td>
+<td align="right">0.256</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">recruitment</td>
+<td align="left">incubation</td>
+<td align="right">-0.001</td>
+<td align="right">0.000</td>
+<td align="right">121</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">survival</td>
+<td align="left">incubation</td>
+<td align="right">0.003</td>
+<td align="right">0.744</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">recruitment</td>
+<td align="left">incubation</td>
+<td align="right">0.002</td>
+<td align="right">0.777</td>
+<td align="right">121</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="left">survival</td>
+<td align="left">incubation</td>
+<td align="right">0.000</td>
+<td align="right">0.488</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="left">recruitment</td>
+<td align="left">incubation</td>
+<td align="right">0.002</td>
+<td align="right">0.868</td>
+<td align="right">121</td>
+</tr>
+<tr class="even">
+<td align="left">Madison.Norris</td>
+<td align="left">survival</td>
+<td align="left">incubation</td>
+<td align="right">0.000</td>
+<td align="right">0.107</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Cascade</td>
+<td align="left">recruitment</td>
+<td align="left">incubation</td>
+<td align="right">0.000</td>
+<td align="right">0.430</td>
+<td align="right">121</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="left">survival</td>
+<td align="left">incubation</td>
+<td align="right">-0.002</td>
+<td align="right">0.256</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="left">recruitment</td>
+<td align="left">incubation</td>
+<td align="right">0.004</td>
+<td align="right">1.000</td>
+<td align="right">121</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Craig</td>
+<td align="left">survival</td>
+<td align="left">incubation</td>
+<td align="right">-0.004</td>
+<td align="right">0.000</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">recruitment</td>
+<td align="left">spawning</td>
+<td align="right">0.004</td>
+<td align="right">0.787</td>
+<td align="right">61</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">survival</td>
+<td align="left">spawning</td>
+<td align="right">0.005</td>
+<td align="right">0.951</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">recruitment</td>
+<td align="left">spawning</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">61</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">survival</td>
+<td align="left">spawning</td>
+<td align="right">-0.002</td>
+<td align="right">0.000</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">recruitment</td>
+<td align="left">spawning</td>
+<td align="right">-0.002</td>
+<td align="right">0.148</td>
+<td align="right">61</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="left">survival</td>
+<td align="left">spawning</td>
+<td align="right">-0.006</td>
+<td align="right">0.148</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="left">recruitment</td>
+<td align="left">spawning</td>
+<td align="right">0.003</td>
+<td align="right">1.000</td>
+<td align="right">61</td>
+</tr>
+<tr class="even">
+<td align="left">Madison.Norris</td>
+<td align="left">survival</td>
+<td align="left">spawning</td>
+<td align="right">0.001</td>
+<td align="right">1.000</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Cascade</td>
+<td align="left">recruitment</td>
+<td align="left">spawning</td>
+<td align="right">-0.001</td>
+<td align="right">0.230</td>
+<td align="right">61</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="left">survival</td>
+<td align="left">spawning</td>
+<td align="right">0.002</td>
+<td align="right">1.000</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="left">recruitment</td>
+<td align="left">spawning</td>
+<td align="right">0.004</td>
+<td align="right">1.000</td>
+<td align="right">61</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Craig</td>
+<td align="left">survival</td>
+<td align="left">spawning</td>
+<td align="right">-0.003</td>
+<td align="right">0.000</td>
+<td align="right">61</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Read this before quoting the table.</strong> The stage
+boundaries were set by hand, not estimated. Choosing them after seeing
+β(t) would guarantee agreement and prove nothing. Fix the timeline from
+the literature first, then compare — and say in the manuscript that you
+did it in that order.</p>
+</blockquote>
+<hr />
+</div>
+<div id="does-site-to-site-variation-track-anything"
+class="section level1">
+<h1>4. Does site-to-site variation track anything?</h1>
+<p>If the flow response differs among sites, the next question is
+whether it differs <em>systematically</em>. Candidate explanations, in
+rough order of how testable they are with what you have:</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Candidate</th>
+<th>Why it could matter</th>
+<th>Data needed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Degree of regulation</td>
+<td>A dam-controlled reach has a compressed natural flow range, so fish
+may be less flow-limited</td>
+<td>Reservoir presence, distance downstream</td>
+</tr>
+<tr class="even">
+<td>Elevation / thermal regime</td>
+<td>Sets spawning and emergence timing, which shifts β(t)
+horizontally</td>
+<td>Site elevation, summer temperature</td>
+</tr>
+<tr class="odd">
+<td>Baseline discharge</td>
+<td>Determines how much a given release changes proportional flow — see
+Proposal 02</td>
+<td>Already computed: per-day climatology</td>
+</tr>
+<tr class="even">
+<td>Channel confinement</td>
+<td>Governs whether high flow means habitat gain or scour</td>
+<td>Geomorphic classification</td>
+</tr>
+<tr class="odd">
+<td>Irrigation withdrawal</td>
+<td>Sets whether summer low flow is naturally or anthropogenically
+limiting</td>
+<td>Diversion records</td>
+</tr>
+</tbody>
+</table>
+<p><strong>None of these is in the pipeline yet, because none is in the
+data folder.</strong> With 14 sites you can support one, possibly two
+site-level covariates — not five. Pick the one with the strongest
+mechanistic prior <em>before</em> fitting, and treat the rest as future
+work. Fourteen sites and five covariates is the same overfitting problem
+as 43 years and a 365-point curve, one level up.</p>
+<p><img src="results_among_sites_files/figure-html/discharge-driver-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="the-confirmatory-anchor-across-sites" class="section level1">
+<h1>5. The confirmatory anchor across sites</h1>
+<pre><code>## &gt; **NOT AVAILABLE** — run `R/05_validate.R`.</code></pre>
+<p><strong>8 of 24 sites clear the gate.</strong></p>
+<p>A mixed result is the most interesting outcome and the hardest to
+write up honestly. The temptation is to report the sites that passed.
+Resist it: with 14 tests at α = 0.05 you expect about one pass by
+chance, so a subset of passes is not evidence that those particular
+sites are special.</p>
+<p>The defensible framing is the pooled effect plus the between-site SD.
+A large mean with large between-site variation is a real finding —
+<em>on average yes, but not everywhere</em> — and it is exactly what a
+basin-scale manager needs to know.</p>
+<hr />
+</div>
+<div id="what-this-says-about-montana-brown-trout-population-ecology"
+class="section level1">
+<h1>6. What this says about Montana brown trout population ecology</h1>
+<p>Draft the synthesis around whichever of these the results actually
+support. None should be asserted without the corresponding figure above
+backing it.</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Which vital rate is flow-limited, and when.</strong> If
+recruitment β(t) is structured and survival β(t) is flat, brown trout
+population dynamics here are recruitment-driven and adult survival is
+buffered against hydrology. That is a statement about where density
+dependence and environmental forcing act, and it has direct consequences
+for what management can and cannot change.</p></li>
+<li><p><strong>Whether the limiting window is natural or
+anthropogenic.</strong> A negative spring-runoff effect is a
+natural-disturbance signal (fry displacement, redd scour). A positive
+summer base-flow effect in a diverted system is an
+anthropogenic-limitation signal. These call for opposite management
+responses: the first argues for accommodating natural variability, the
+second for augmenting it.</p></li>
+<li><p><strong>Whether timing is cued locally.</strong> If the β(t)
+shape is shared but shifted between sites, the mechanism is real and
+phenological — and the shift should correlate with elevation or thermal
+regime. That is a testable prediction from this analysis, and a good
+final paragraph.</p></li>
+<li><p><strong>The resolution limit is itself a result.</strong> If 43
+years cannot resolve finer than a ~60-day window, that bounds how
+precisely <em>any</em> flow-management prescription can be specified
+from observational data at this sample size. Saying so quantitatively is
+more useful to the field than a spuriously precise date, and it
+motivates the experimental releases that would resolve it.</p></li>
+</ol>
+<hr />
+</div>
+<div id="limits" class="section level1">
+<h1>7. Limits</h1>
+<p>State these in the manuscript. A reviewer will find them anyway, and
+finding them already stated is a different experience from finding them
+omitted.</p>
+<ul>
+<li><strong>Sites are not independent replicates.</strong> Several share
+a basin, a climate signal, and in some cases a reservoir. Shared
+response may reflect shared weather rather than shared biology. A
+spatial or basin-level random effect is the fix; it is not yet
+implemented.</li>
+<li><strong>The response is a model output, not an observation.</strong>
+log(R/S) comes from the null IPM’s posterior. Section 1 of
+<code>methods.html</code> covers the circularity guard; the residual
+risk is that IPM structural assumptions are shared across sites and
+could induce shared β(t) structure.</li>
+<li><strong>β(t) is linear in the flow anomaly.</strong> A dome-shaped
+response — too little water bad, too much water bad — would be averaged
+into a shallow monotone slope. Testable by adding a squared term, but
+only worth spending the degrees of freedom after the linear model
+passes.</li>
+<li><strong>The lag is fixed at 3 years and equals the spawning
+lag</strong>, so flow and spawning stock share a calendar year and any
+pathway from spawn-year flow to adult abundance is differenced out of
+log(R/S). This estimates a <em>spawn-year</em> effect, not an age-0
+rearing-year effect.</li>
+<li><strong>Mean mass at age is frozen</strong> in the production sweep,
+so temperature effects on growth are outside the model. Production
+sensitivities are the flow-on-abundance pathway only.</li>
+<li><strong>Fourteen sites supports one site-level covariate, not
+five.</strong> See Section 4.</li>
+</ul>
+<hr />
+<hr>
+<p><small>Rendered 2026-08-11 16:01 · R version 4.5.1 (2025-06-13) ·
+commit a3b476e<br>Every number on this page is read from
+<code>output/</code>. Sections showing <strong>NOT AVAILABLE</strong>
+mean that stage has not been run.</small></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,4047 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>BigHole.Melrose</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Daily Flow & Montana Trout</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Overview</a>
+</li>
+<li>
+  <a href="methods.html">Methods</a>
+</li>
+<li>
+  <a href="results.html">Results</a>
+</li>
+<li>
+  <a href="results_among_sites.html">Among sites</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/YOUR-USERNAME/WH_BOR_Trout">
+    <span class="fa fa-github"></span>
+     
+    Source
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">BigHole.Melrose</h1>
+<h3 class="subtitle">Daily flow effects, scenarios, and equilibrium</h3>
+
+</div>
+
+
+<!--
+=============================================================================
+_site_template.Rmd -- the per-site results body.
+
+The leading underscore keeps render_site() from rendering it as a page. It is
+included as a CHILD by each generated site_<name>.Rmd, which sets SITE_FOCUS
+first. Edit the results content HERE; the generated wrappers are disposable.
+=============================================================================
+-->
+<div id="bighole.melrose" class="section level1">
+<h1>BigHole.Melrose</h1>
+<blockquote>
+<h2 id="read-this-first">Read this first</h2>
+<p><strong>No flow signal survives validation at this site.</strong>
+Curves and tables below are correct arithmetic on a relationship that is
+not detectable in this record. They are retained so the pipeline can be
+audited end to end, not so the numbers can be quoted. Every section is
+labelled accordingly.</p>
+<p>This is a result, not a failure. It says that ~40 years of annual
+data cannot resolve a flow effect on these vital rates at this site, and
+that releases cannot be timed to trout on this evidence.</p>
+</blockquote>
+</div>
+<div id="what-was-estimated" class="section level1">
+<h1>1. What was estimated</h1>
+<p>For every day of the calendar year, two curves per site:</p>
+<ul>
+<li><strong>β_R(d)</strong> — effect of a wetter-than-normal day on
+recruits per unit spawning stock</li>
+<li><strong>β_S(d)</strong> — effect on adult survival, on the logit
+scale</li>
+</ul>
+<p>and one derived curve:</p>
+<ul>
+<li><strong>s(d)</strong> — the benefit per unit of water actually
+released, which is β(d) divided by baseline discharge and is therefore a
+<strong>different shape</strong></li>
+</ul>
+<table>
+<caption>Validation. Blocked cross-validation is the honest number;
+in-sample is arithmetic, not evidence. Leave-one-out is shown so the
+inflation from flow autocorrelation is visible.</caption>
+<colgroup>
+<col width="3%" />
+<col width="12%" />
+<col width="16%" />
+<col width="6%" />
+<col width="8%" />
+<col width="10%" />
+<col width="14%" />
+<col width="11%" />
+<col width="8%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Process</th>
+<th align="left">Model</th>
+<th align="right">Years</th>
+<th align="right">Eff. df</th>
+<th align="right">In-sample</th>
+<th align="right">Leave-one-out</th>
+<th align="right">Blocked CV</th>
+<th align="right">Perm. p</th>
+<th align="left">Passes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">7</td>
+<td align="left">recruitment</td>
+<td align="left">daily β(d), fpc</td>
+<td align="right">33</td>
+<td align="right">6</td>
+<td align="right">0.327</td>
+<td align="right">-0.032</td>
+<td align="right">-0.150</td>
+<td align="right">0.364</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">8</td>
+<td align="left">recruitment</td>
+<td align="left">4 windows</td>
+<td align="right">33</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+<td align="right">-0.275</td>
+<td align="right">-0.650</td>
+<td align="right">0.970</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">19</td>
+<td align="left">survival</td>
+<td align="left">daily β(d), fpc</td>
+<td align="right">32</td>
+<td align="right">6</td>
+<td align="right">0.668</td>
+<td align="right">0.369</td>
+<td align="right">0.315</td>
+<td align="right">0.031</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">20</td>
+<td align="left">survival</td>
+<td align="left">4 windows</td>
+<td align="right">32</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+<td align="right">-0.142</td>
+<td align="right">-0.235</td>
+<td align="right">0.469</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table>
+<div id="the-fitted-curves" class="section level2">
+<h2>1.1 The fitted curves</h2>
+<p>β(d) is the effect on the response of one standard deviation of extra
+flow on day d, holding every other day fixed. It is the primary estimate
+— everything in §3 and §4 is a summary of it.</p>
+<p><strong>Read it against its band, not as a line.</strong> Where the
+interval spans zero the data cannot tell the sign of the effect on that
+day, however sharp the peak looks.</p>
+<p><img src="figures/03_f3a.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p>At <strong>BigHole.Melrose</strong>, β(d) is largest on <strong>06
+Jun</strong> and most negative on <strong>11 Apr</strong>. Its 95%
+interval excludes zero on <strong>11%</strong> of days.</p>
+<p><img src="figures/03_f3b.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/04_f4a.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p>The survival curve is fitted at a lag of <strong>1/0
+year(s)</strong>, chosen by the sweep in script 04 and gated in script
+05. That lag is fitted independently of the recruitment flow lag, so the
+two curves need not describe the same year.</p>
+</div>
+<div id="the-flow-modes-βd-is-built-from" class="section level2">
+<h2>1.2 The flow modes β(d) is built from</h2>
+<p>β(d) from this estimator is a weighted sum of eigenfunctions of the
+hydrographs. Plotting the modes shows <strong>what shape of flow
+variation the model responds to</strong>, which β(d) alone does not
+reveal.</p>
+<p><img src="figures/03_f3e.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<table>
+<caption>Retained flow modes. ‘Flow var.’ is what selected the mode;
+‘recruit var.’ is what makes it interesting. Recruit variance is
+IN-SAMPLE and optimistic, because components were chosen on flow
+variance and only then tested against recruitment — the blocked
+cross-validation above is what decides whether any of it
+predicts.</caption>
+<colgroup>
+<col width="26%" />
+<col width="5%" />
+<col width="15%" />
+<col width="19%" />
+<col width="21%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Site</th>
+<th align="left">Mode</th>
+<th align="right">Flow var. (%)</th>
+<th align="right">Recruit var. (%)</th>
+<th align="right">P(consistent sign)</th>
+<th align="left">Supported</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">FPC1</td>
+<td align="right">66.0</td>
+<td align="right">47.5</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">FPC5</td>
+<td align="right">2.8</td>
+<td align="right">38.1</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">FPC3</td>
+<td align="right">5.1</td>
+<td align="right">6.2</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">FPC4</td>
+<td align="right">3.6</td>
+<td align="right">4.7</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">FPC6</td>
+<td align="right">1.9</td>
+<td align="right">2.6</td>
+<td align="right">0.99</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">FPC2</td>
+<td align="right">12.3</td>
+<td align="right">0.0</td>
+<td align="right">0.53</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">FPC1</td>
+<td align="right">72.4</td>
+<td align="right">4.5</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">FPC2</td>
+<td align="right">14.4</td>
+<td align="right">0.2</td>
+<td align="right">0.86</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">FPC3</td>
+<td align="right">3.7</td>
+<td align="right">0.1</td>
+<td align="right">0.78</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="left">FPC1</td>
+<td align="right">46.9</td>
+<td align="right">15.4</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">FPC4</td>
+<td align="right">4.8</td>
+<td align="right">15.2</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="left">FPC6</td>
+<td align="right">3.4</td>
+<td align="right">1.8</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">FPC2</td>
+<td align="right">12.6</td>
+<td align="right">0.4</td>
+<td align="right">0.92</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="left">FPC3</td>
+<td align="right">7.8</td>
+<td align="right">0.2</td>
+<td align="right">0.84</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">FPC5</td>
+<td align="right">3.6</td>
+<td align="right">0.0</td>
+<td align="right">0.51</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Madison.Norris</td>
+<td align="left">FPC5</td>
+<td align="right">4.2</td>
+<td align="right">10.2</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="left">FPC3</td>
+<td align="right">11.3</td>
+<td align="right">10.0</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">Madison.Norris</td>
+<td align="left">FPC6</td>
+<td align="right">3.2</td>
+<td align="right">5.2</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="left">FPC1</td>
+<td align="right">42.4</td>
+<td align="right">3.5</td>
+<td align="right">0.99</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">Madison.Norris</td>
+<td align="left">FPC4</td>
+<td align="right">6.3</td>
+<td align="right">0.4</td>
+<td align="right">0.68</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="left">FPC2</td>
+<td align="right">11.6</td>
+<td align="right">0.1</td>
+<td align="right">0.63</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="left">FPC5</td>
+<td align="right">2.5</td>
+<td align="right">12.3</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Cascade</td>
+<td align="left">FPC2</td>
+<td align="right">12.5</td>
+<td align="right">5.4</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="left">FPC4</td>
+<td align="right">4.0</td>
+<td align="right">5.1</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Cascade</td>
+<td align="left">FPC1</td>
+<td align="right">67.8</td>
+<td align="right">1.3</td>
+<td align="right">0.97</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="left">FPC3</td>
+<td align="right">5.7</td>
+<td align="right">1.0</td>
+<td align="right">0.91</td>
+<td align="left">yes</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="left">FPC3</td>
+<td align="right">5.8</td>
+<td align="right">17.3</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Craig</td>
+<td align="left">FPC1</td>
+<td align="right">68.8</td>
+<td align="right">4.4</td>
+<td align="right">1.00</td>
+<td align="left">yes</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="left">FPC4</td>
+<td align="right">4.0</td>
+<td align="right">0.8</td>
+<td align="right">0.99</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Craig</td>
+<td align="left">FPC2</td>
+<td align="right">10.6</td>
+<td align="right">0.5</td>
+<td align="right">0.91</td>
+<td align="left">yes</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="left">FPC5</td>
+<td align="right">2.3</td>
+<td align="right">0.0</td>
+<td align="right">0.53</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table>
+<p><img src="figures/03_f3f.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p>The mode explaining the most recruitment variance is
+<strong>FPC1</strong>, which carries 66.0% of hydrograph variation but
+47.5% of variation in log(R/S). It is also the leading mode, so in this
+case selection on flow variance and relevance to recruitment happen to
+agree.</p>
+</div>
+</div>
+<div id="the-ecological-curves-rq2" class="section level1">
+<h1>2. The ecological curves (RQ2)</h1>
+<p><img src="figures/09_f9a_life_history.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<table>
+<caption>Mean flow sensitivity within each life stage. Positive means
+wetter-than-normal conditions during that stage are associated with
+better performance.</caption>
+<colgroup>
+<col width="27%" />
+<col width="14%" />
+<col width="15%" />
+<col width="10%" />
+<col width="32%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Site</th>
+<th align="left">Vital rate</th>
+<th align="left">Life stage</th>
+<th align="right">Mean β</th>
+<th align="right">Fraction of stage positive</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">recruitment</td>
+<td align="left">emergence</td>
+<td align="right">-0.00994</td>
+<td align="right">0.18</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">recruitment</td>
+<td align="left">first summer</td>
+<td align="right">0.00281</td>
+<td align="right">0.86</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">recruitment</td>
+<td align="left">first winter</td>
+<td align="right">0.00254</td>
+<td align="right">0.69</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">recruitment</td>
+<td align="left">incubation</td>
+<td align="right">0.00254</td>
+<td align="right">0.69</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">recruitment</td>
+<td align="left">spawning</td>
+<td align="right">0.00420</td>
+<td align="right">0.79</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">survival</td>
+<td align="left">emergence</td>
+<td align="right">-0.00086</td>
+<td align="right">0.48</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">survival</td>
+<td align="left">first summer</td>
+<td align="right">-0.00551</td>
+<td align="right">0.20</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">survival</td>
+<td align="left">first winter</td>
+<td align="right">-0.00058</td>
+<td align="right">0.26</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">survival</td>
+<td align="left">incubation</td>
+<td align="right">-0.00058</td>
+<td align="right">0.26</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.FishAndGame</td>
+<td align="left">survival</td>
+<td align="left">spawning</td>
+<td align="right">0.00538</td>
+<td align="right">0.95</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">recruitment</td>
+<td align="left">emergence</td>
+<td align="right">-0.00018</td>
+<td align="right">0.03</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">recruitment</td>
+<td align="left">first summer</td>
+<td align="right">0.00012</td>
+<td align="right">0.70</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">recruitment</td>
+<td align="left">first winter</td>
+<td align="right">-0.00077</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">recruitment</td>
+<td align="left">incubation</td>
+<td align="right">-0.00077</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">recruitment</td>
+<td align="left">spawning</td>
+<td align="right">-0.00043</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">survival</td>
+<td align="left">emergence</td>
+<td align="right">0.00274</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">survival</td>
+<td align="left">first summer</td>
+<td align="right">0.00084</td>
+<td align="right">0.88</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">survival</td>
+<td align="left">first winter</td>
+<td align="right">0.00258</td>
+<td align="right">0.74</td>
+</tr>
+<tr class="odd">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">survival</td>
+<td align="left">incubation</td>
+<td align="right">0.00258</td>
+<td align="right">0.74</td>
+</tr>
+<tr class="even">
+<td align="left">Beaverhead.Hildreth</td>
+<td align="left">survival</td>
+<td align="left">spawning</td>
+<td align="right">-0.00208</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">recruitment</td>
+<td align="left">emergence</td>
+<td align="right">0.00472</td>
+<td align="right">0.59</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="left">recruitment</td>
+<td align="left">first summer</td>
+<td align="right">-0.00081</td>
+<td align="right">0.41</td>
+</tr>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">recruitment</td>
+<td align="left">first winter</td>
+<td align="right">0.00203</td>
+<td align="right">0.78</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="left">recruitment</td>
+<td align="left">incubation</td>
+<td align="right">0.00203</td>
+<td align="right">0.78</td>
+</tr>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">recruitment</td>
+<td align="left">spawning</td>
+<td align="right">-0.00235</td>
+<td align="right">0.15</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="left">survival</td>
+<td align="left">emergence</td>
+<td align="right">-0.00180</td>
+<td align="right">0.44</td>
+</tr>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">survival</td>
+<td align="left">first summer</td>
+<td align="right">-0.00199</td>
+<td align="right">0.39</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="left">survival</td>
+<td align="left">first winter</td>
+<td align="right">0.00001</td>
+<td align="right">0.49</td>
+</tr>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">survival</td>
+<td align="left">incubation</td>
+<td align="right">0.00001</td>
+<td align="right">0.49</td>
+</tr>
+<tr class="even">
+<td align="left">BigHole.Melrose</td>
+<td align="left">survival</td>
+<td align="left">spawning</td>
+<td align="right">-0.00614</td>
+<td align="right">0.15</td>
+</tr>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="left">recruitment</td>
+<td align="left">emergence</td>
+<td align="right">-0.00158</td>
+<td align="right">0.34</td>
+</tr>
+<tr class="even">
+<td align="left">Madison.Norris</td>
+<td align="left">recruitment</td>
+<td align="left">first summer</td>
+<td align="right">0.00155</td>
+<td align="right">0.93</td>
+</tr>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="left">recruitment</td>
+<td align="left">first winter</td>
+<td align="right">0.00188</td>
+<td align="right">0.87</td>
+</tr>
+<tr class="even">
+<td align="left">Madison.Norris</td>
+<td align="left">recruitment</td>
+<td align="left">incubation</td>
+<td align="right">0.00188</td>
+<td align="right">0.87</td>
+</tr>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="left">recruitment</td>
+<td align="left">spawning</td>
+<td align="right">0.00307</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="even">
+<td align="left">Madison.Norris</td>
+<td align="left">survival</td>
+<td align="left">emergence</td>
+<td align="right">-0.00179</td>
+<td align="right">0.15</td>
+</tr>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="left">survival</td>
+<td align="left">first summer</td>
+<td align="right">0.00106</td>
+<td align="right">0.95</td>
+</tr>
+<tr class="even">
+<td align="left">Madison.Norris</td>
+<td align="left">survival</td>
+<td align="left">first winter</td>
+<td align="right">-0.00037</td>
+<td align="right">0.11</td>
+</tr>
+<tr class="odd">
+<td align="left">Madison.Norris</td>
+<td align="left">survival</td>
+<td align="left">incubation</td>
+<td align="right">-0.00037</td>
+<td align="right">0.11</td>
+</tr>
+<tr class="even">
+<td align="left">Madison.Norris</td>
+<td align="left">survival</td>
+<td align="left">spawning</td>
+<td align="right">0.00099</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Cascade</td>
+<td align="left">recruitment</td>
+<td align="left">emergence</td>
+<td align="right">-0.00264</td>
+<td align="right">0.21</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="left">recruitment</td>
+<td align="left">first summer</td>
+<td align="right">0.00203</td>
+<td align="right">0.50</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Cascade</td>
+<td align="left">recruitment</td>
+<td align="left">first winter</td>
+<td align="right">-0.00015</td>
+<td align="right">0.43</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="left">recruitment</td>
+<td align="left">incubation</td>
+<td align="right">-0.00015</td>
+<td align="right">0.43</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Cascade</td>
+<td align="left">recruitment</td>
+<td align="left">spawning</td>
+<td align="right">-0.00095</td>
+<td align="right">0.23</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="left">survival</td>
+<td align="left">emergence</td>
+<td align="right">-0.00140</td>
+<td align="right">0.43</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Cascade</td>
+<td align="left">survival</td>
+<td align="left">first summer</td>
+<td align="right">0.00254</td>
+<td align="right">0.97</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="left">survival</td>
+<td align="left">first winter</td>
+<td align="right">-0.00212</td>
+<td align="right">0.26</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Cascade</td>
+<td align="left">survival</td>
+<td align="left">incubation</td>
+<td align="right">-0.00212</td>
+<td align="right">0.26</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Cascade</td>
+<td align="left">survival</td>
+<td align="left">spawning</td>
+<td align="right">0.00216</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="left">recruitment</td>
+<td align="left">emergence</td>
+<td align="right">-0.00447</td>
+<td align="right">0.02</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Craig</td>
+<td align="left">recruitment</td>
+<td align="left">first summer</td>
+<td align="right">0.00295</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="left">recruitment</td>
+<td align="left">first winter</td>
+<td align="right">0.00359</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Craig</td>
+<td align="left">recruitment</td>
+<td align="left">incubation</td>
+<td align="right">0.00359</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="left">recruitment</td>
+<td align="left">spawning</td>
+<td align="right">0.00391</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Craig</td>
+<td align="left">survival</td>
+<td align="left">emergence</td>
+<td align="right">0.00205</td>
+<td align="right">0.66</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="left">survival</td>
+<td align="left">first summer</td>
+<td align="right">-0.00131</td>
+<td align="right">0.16</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Craig</td>
+<td align="left">survival</td>
+<td align="left">first winter</td>
+<td align="right">-0.00376</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri.Craig</td>
+<td align="left">survival</td>
+<td align="left">incubation</td>
+<td align="right">-0.00376</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="even">
+<td align="left">Missouri.Craig</td>
+<td align="left">survival</td>
+<td align="left">spawning</td>
+<td align="right">-0.00316</td>
+<td align="right">0.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Beaverhead.FishAndGame.</strong> For recruitment, the
+strongest positive association is during <strong>spawning</strong> and
+the strongest negative during <strong>emergence</strong>. For survival,
+the strongest positive association is during <strong>spawning</strong>
+and the strongest negative during <strong>first summer</strong>.</p>
+<p>Both vital rates peak in the same stage, implying a single seasonal
+bottleneck.</p>
+<p><strong>Beaverhead.Hildreth.</strong> For recruitment, the strongest
+positive association is during <strong>first summer</strong> and the
+strongest negative during <strong>incubation</strong>. For survival, the
+strongest positive association is during <strong>emergence</strong> and
+the strongest negative during <strong>spawning</strong>.</p>
+<p>Recruitment and survival peak in <strong>different</strong> life
+stages (recruitment: first summer; survival: emergence), which implies
+the two vital rates are flow-limited at different times of year and that
+the bottleneck shifts seasonally.</p>
+<p><strong>BigHole.Melrose.</strong> For recruitment, the strongest
+positive association is during <strong>emergence</strong> and the
+strongest negative during <strong>spawning</strong>. For survival, the
+strongest positive association is during <strong>first winter</strong>
+and the strongest negative during <strong>spawning</strong>.</p>
+<p>Recruitment and survival peak in <strong>different</strong> life
+stages (recruitment: emergence; survival: first winter; survival:
+incubation), which implies the two vital rates are flow-limited at
+different times of year and that the bottleneck shifts seasonally.</p>
+<p><strong>Madison.Norris.</strong> For recruitment, the strongest
+positive association is during <strong>spawning</strong> and the
+strongest negative during <strong>emergence</strong>. For survival, the
+strongest positive association is during <strong>first summer</strong>
+and the strongest negative during <strong>emergence</strong>.</p>
+<p>Recruitment and survival peak in <strong>different</strong> life
+stages (recruitment: spawning; survival: first summer), which implies
+the two vital rates are flow-limited at different times of year and that
+the bottleneck shifts seasonally.</p>
+<p><strong>Missouri.Cascade.</strong> For recruitment, the strongest
+positive association is during <strong>first summer</strong> and the
+strongest negative during <strong>emergence</strong>. For survival, the
+strongest positive association is during <strong>first summer</strong>
+and the strongest negative during <strong>incubation</strong>.</p>
+<p>Both vital rates peak in the same stage, implying a single seasonal
+bottleneck.</p>
+<p><strong>Missouri.Craig.</strong> For recruitment, the strongest
+positive association is during <strong>spawning</strong> and the
+strongest negative during <strong>emergence</strong>. For survival, the
+strongest positive association is during <strong>emergence</strong> and
+the strongest negative during <strong>incubation</strong>.</p>
+<p>Recruitment and survival peak in <strong>different</strong> life
+stages (recruitment: spawning; survival: emergence), which implies the
+two vital rates are flow-limited at different times of year and that the
+bottleneck shifts seasonally.</p>
+<p><em>Interpretation requires the life-history timeline in
+<code>output/tables/life_history_timeline.csv</code> to be correct for
+this system. Edit <code>LIFE</code> in <code>R/09_figures.R</code> and
+cite the source.</em></p>
+<p><img src="figures/09_f9b_stage_means.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="guidance-for-water-managers-rq1" class="section level1">
+<h1>3. Guidance for water managers (RQ1)</h1>
+<div id="the-two-curves-are-not-the-same-shape" class="section level2">
+<h2>3.1 The two curves are not the same shape</h2>
+<p><img src="figures/06_f6a.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p>This is the practical core. β(d) says when the population is
+sensitive to hydrology; s(d) says when a unit of released water buys the
+most fish. They differ because the same water is a large proportional
+change at base flow and a small one at the snowmelt peak.</p>
+</div>
+<div id="how-precisely-can-a-day-be-named" class="section level2">
+<h2>3.2 How precisely can a day be named?</h2>
+<p><img src="figures/06_f6c.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<table>
+<caption>The honest resolution. Each simulated curve votes for its best
+and worst day; this is the credible interval of that vote. Width is a
+property of the record, not a modelling choice.</caption>
+<colgroup>
+<col width="2%" />
+<col width="11%" />
+<col width="18%" />
+<col width="14%" />
+<col width="6%" />
+<col width="12%" />
+<col width="14%" />
+<col width="19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Process</th>
+<th align="left">Which</th>
+<th align="left">Window</th>
+<th align="left">Median</th>
+<th align="right">Width (days)</th>
+<th align="left">Credible level</th>
+<th align="left">Resolvable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">7</td>
+<td align="left">recruitment</td>
+<td align="left">most beneficial day</td>
+<td align="left">02 Feb – 30 Nov</td>
+<td align="left">20 Mar</td>
+<td align="right">301</td>
+<td align="left">80%</td>
+<td align="left">no — report a season</td>
+</tr>
+<tr class="even">
+<td align="left">8</td>
+<td align="left">recruitment</td>
+<td align="left">most harmful day</td>
+<td align="left">11 Apr – 09 Oct</td>
+<td align="left">24 Aug</td>
+<td align="right">181</td>
+<td align="left">80%</td>
+<td align="left">no — report a season</td>
+</tr>
+<tr class="odd">
+<td align="left">19</td>
+<td align="left">survival</td>
+<td align="left">most beneficial day</td>
+<td align="left">30 Jan – 18 Mar</td>
+<td align="left">30 Jan</td>
+<td align="right">47</td>
+<td align="left">80%</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">20</td>
+<td align="left">survival</td>
+<td align="left">most harmful day</td>
+<td align="left">24 Aug – 22 Dec</td>
+<td align="left">06 Sep</td>
+<td align="right">120</td>
+<td align="left">80%</td>
+<td align="left">no — report a season</td>
+</tr>
+</tbody>
+</table>
+<p><strong>At least one window exceeds 90 days.</strong> For those, no
+date should be reported anywhere in the manuscript or in guidance to
+managers — the record supports a season, not a week. Stating a date
+would give actionable-looking advice built on noise, which is worse than
+declining to advise, because water gets moved and money gets spent.</p>
+</div>
+<div id="where-to-put-a-fixed-volume-of-water" class="section level2">
+<h2>3.3 Where to put a fixed volume of water</h2>
+<p><img src="figures/06_f6e.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<table>
+<caption>Best release schedule for each leased volume. This is the
+answer to ‘I have V acre-feet — when do I release it?’ Longer windows
+usually win because the log-response means the hundredth cfs buys less
+than the first.</caption>
+<colgroup>
+<col width="17%" />
+<col width="14%" />
+<col width="14%" />
+<col width="11%" />
+<col width="16%" />
+<col width="11%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Volume (acre-ft)</th>
+<th align="right">Window (days)</th>
+<th align="right">Sustained cfs</th>
+<th align="left">Best start</th>
+<th align="left">Start range</th>
+<th align="right">Effect (%)</th>
+<th align="right">P(positive)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">200</td>
+<td align="right">7</td>
+<td align="right">14.4</td>
+<td align="left">16 Mar</td>
+<td align="left">04 Feb – 22 Nov</td>
+<td align="right">0.33</td>
+<td align="right">0.9</td>
+</tr>
+<tr class="even">
+<td align="right">1000</td>
+<td align="right">7</td>
+<td align="right">72.0</td>
+<td align="left">16 Mar</td>
+<td align="left">04 Feb – 22 Nov</td>
+<td align="right">1.59</td>
+<td align="right">0.9</td>
+</tr>
+<tr class="odd">
+<td align="right">5000</td>
+<td align="right">7</td>
+<td align="right">360.1</td>
+<td align="left">16 Mar</td>
+<td align="left">04 Feb – 22 Nov</td>
+<td align="right">6.58</td>
+<td align="right">0.9</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="the-season-when-water-can-actually-be-released"
+class="section level2">
+<h2>3.4 The season when water can actually be released</h2>
+<p>Sections 3.1–3.3 use the full calendar year, which is the right
+<em>ecological</em> domain — β(d) is estimated over all 365 days and
+should be reported that way. But nobody can release water in February.
+Leased water, shepherded water and reservoir re-timing are negotiated
+and delivered across the irrigation season.</p>
+<p>Restricting to that season is a <strong>constrained optimisation, not
+a zoom</strong>. The best feasible day is an argmax over a subset and
+can be a different day; its credible interval has to be recomputed
+within the subset rather than truncated; and release schedules must be
+restricted to starts whose full duration fits inside the season.</p>
+<p>The window used here is the <strong>irrigation and allocation
+season</strong>: 01 May to 31 Oct, 184 days. Set it in
+<code>config.R</code> under <code>CFG$decision_window</code>.</p>
+<div id="the-curve-across-the-season-and-what-drives-it"
+class="section level3">
+<h3>The curve across the season, and what drives it</h3>
+<p><img src="figures/06b_f.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p>Baseline discharge is on the right axis for a reason. Benefit per cfs
+scales as 1/Q, and discharge falls sharply from the snowmelt peak to
+autumn base flow — so the same acre-foot buys progressively more as the
+season goes on. <strong>Where the benefit curve peaks later than β(d)
+does, that gap is pure 1/Q leverage</strong>, and it is the part a water
+user can act on.</p>
+</div>
+<div id="the-best-feasible-day-and-what-the-constraint-costs"
+class="section level3">
+<h3>The best feasible day, and what the constraint costs</h3>
+<p><img src="figures/06b_g.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<table>
+<caption>What the allocation season costs. ‘Benefit retained’ is the
+effect at the best feasible day divided by the effect at the
+unconstrained optimum. ‘Constraint binds’ is how often the globally best
+day fell outside the season.</caption>
+<colgroup>
+<col width="1%" />
+<col width="7%" />
+<col width="10%" />
+<col width="15%" />
+<col width="11%" />
+<col width="10%" />
+<col width="8%" />
+<col width="10%" />
+<col width="10%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Process</th>
+<th align="left">Site</th>
+<th align="left">Best day (unconstrained)</th>
+<th align="left">Best feasible day</th>
+<th align="left">Feasible window</th>
+<th align="right">Width (days)</th>
+<th align="left">Benefit retained</th>
+<th align="left">Constraint binds</th>
+<th align="left">Resolvable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">4</td>
+<td align="left">recruitment</td>
+<td align="left">BigHole.Melrose</td>
+<td align="left">20 Mar</td>
+<td align="left">08 Aug</td>
+<td align="left">26 Jun – 30 Oct</td>
+<td align="right">126</td>
+<td align="left">44%</td>
+<td align="left">88% of draws</td>
+<td align="left">no — report a period</td>
+</tr>
+<tr class="even">
+<td align="left">10</td>
+<td align="left">survival</td>
+<td align="left">BigHole.Melrose</td>
+<td align="left">30 Jan</td>
+<td align="left">16 Jul</td>
+<td align="left">15 Jul – 13 Aug</td>
+<td align="right">29</td>
+<td align="left">30%</td>
+<td align="left">97% of draws</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The biology wants water when the allocation system cannot
+deliver it.</strong> The best feasible day retains only 30% of the
+unconstrained optimum. This is a finding, not a nuisance: it says the
+binding constraint on trout benefit here is not how much water is
+available for lease but <em>when it can be moved</em>. That conclusion
+belongs in the abstract, and it points at a different intervention —
+changing the rules about when water can be re-timed — rather than at
+buying more of it.</p>
+</div>
+<div id="every-feasible-schedule-scored" class="section level3">
+<h3>Every feasible schedule, scored</h3>
+<p><img src="figures/06b_h.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<table>
+<caption>The operational answer: for each leased volume, the best
+schedule that fits entirely inside the allocation season. Compare the
+effect column against the unconstrained table in 3.3 to see the cost of
+the constraint directly.</caption>
+<colgroup>
+<col width="17%" />
+<col width="16%" />
+<col width="14%" />
+<col width="7%" />
+<col width="7%" />
+<col width="16%" />
+<col width="11%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Volume (acre-ft)</th>
+<th align="right">Duration (days)</th>
+<th align="right">Sustained cfs</th>
+<th align="left">Start</th>
+<th align="left">End</th>
+<th align="left">Start range</th>
+<th align="right">Effect (%)</th>
+<th align="right">P(positive)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">200</td>
+<td align="right">7</td>
+<td align="right">14.4</td>
+<td align="left">22 Jun</td>
+<td align="left">28 Jun</td>
+<td align="left">21 Jun – 22 Aug</td>
+<td align="right">0.12</td>
+<td align="right">0.99</td>
+</tr>
+<tr class="even">
+<td align="right">1000</td>
+<td align="right">7</td>
+<td align="right">72.0</td>
+<td align="left">22 Jun</td>
+<td align="left">28 Jun</td>
+<td align="left">21 Jun – 17 Aug</td>
+<td align="right">0.58</td>
+<td align="right">0.99</td>
+</tr>
+<tr class="odd">
+<td align="right">5000</td>
+<td align="right">7</td>
+<td align="right">360.1</td>
+<td align="left">22 Jun</td>
+<td align="left">28 Jun</td>
+<td align="left">20 Jun – 14 Aug</td>
+<td align="right">2.76</td>
+<td align="right">0.99</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="does-the-timing-decision-actually-matter"
+class="section level3">
+<h3>Does the timing decision actually matter?</h3>
+<p><img src="figures/06b_i.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p>Across schedules, a median of <strong>6%</strong> of feasible start
+dates land within 10% of the best achievable benefit.</p>
+<p><strong>Timing is the binding decision.</strong> Only a narrow part
+of the season is near-optimal, so <em>when</em> the water moves matters
+as much as how much of it there is. This is the case where negotiating
+for a specific delivery window is worth the transaction cost — provided
+the interval in the table above is narrow enough to name one.</p>
+<blockquote>
+<p><strong>None of this section is supported.</strong> The validation
+gate in script 05 did not pass for at least one curve used here. The
+schedules above are correct arithmetic on a relationship the record
+cannot demonstrate, and must not be briefed to managers or included as a
+recommendation.</p>
+</blockquote>
+</div>
+</div>
+<div id="whole-population-production" class="section level2">
+<h2>3.5 Whole-population production</h2>
+<p><img src="figures/09_f9d_production.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<table>
+<caption>Effect on mean annual surplus production, propagated through
+the age-structured model. Includes the compounding of survival into
+future spawning stock, which adding the recruitment and survival curves
+separately would miss.</caption>
+<thead>
+<tr class="header">
+<th align="left">Site</th>
+<th align="left">Best block</th>
+<th align="right">Best (%)</th>
+<th align="left">Worst block</th>
+<th align="right">Worst (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">BigHole.Melrose</td>
+<td align="left">31 Jan</td>
+<td align="right">1.24</td>
+<td align="left">29 Aug</td>
+<td align="right">-2.33</td>
+</tr>
+</tbody>
+</table>
+<p><img src="figures/07_f7b.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="bureau-of-reclamation-scenarios-rq3" class="section level1">
+<h1>4. Bureau of Reclamation scenarios (RQ3)</h1>
+<p><img src="figures/09_f9e_scenarios.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<table>
+<caption>Scenario effects relative to historical mean flow.
+‘Extrapolating’ is the share of days outside the training flow range —
+where β(d) is evaluated with no data behind it.</caption>
+<colgroup>
+<col width="6%" />
+<col width="8%" />
+<col width="21%" />
+<col width="9%" />
+<col width="4%" />
+<col width="5%" />
+<col width="12%" />
+<col width="10%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Scenario</th>
+<th align="left">Period</th>
+<th align="left">Type</th>
+<th align="left">Process</th>
+<th align="right">Years</th>
+<th align="right">Effect</th>
+<th align="left">10th–90th</th>
+<th align="left">Extrapolating</th>
+<th align="left">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2050s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-32.11</td>
+<td align="left">-32.11 – -32.11</td>
+<td align="left">15%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-32.11</td>
+<td align="left">-32.11 – -32.11</td>
+<td align="left">15%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">-27.04</td>
+<td align="left">-27.04 – -27.04</td>
+<td align="left">24%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2080s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">-23.89</td>
+<td align="left">-23.89 – -23.89</td>
+<td align="left">23%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2050s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-21.91</td>
+<td align="left">-21.91 – -21.91</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-21.91</td>
+<td align="left">-21.91 – -21.91</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">-17.40</td>
+<td align="left">-17.4 – -17.4</td>
+<td align="left">24%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2020s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-17.36</td>
+<td align="left">-17.36 – -17.36</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-17.36</td>
+<td align="left">-17.36 – -17.36</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2050s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-14.68</td>
+<td align="left">-14.68 – -14.68</td>
+<td align="left">15%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2080s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">-13.34</td>
+<td align="left">-13.34 – -13.34</td>
+<td align="left">26%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2080s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">-11.63</td>
+<td align="left">-11.63 – -11.63</td>
+<td align="left">17%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">-11.63</td>
+<td align="left">-11.63 – -11.63</td>
+<td align="left">17%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2050s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-10.20</td>
+<td align="left">-10.2 – -10.2</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2020s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-9.91</td>
+<td align="left">-9.91 – -9.91</td>
+<td align="left">10%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-9.91</td>
+<td align="left">-9.91 – -9.91</td>
+<td align="left">10%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2020s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-9.88</td>
+<td align="left">-9.88 – -9.88</td>
+<td align="left">10%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-9.88</td>
+<td align="left">-9.88 – -9.88</td>
+<td align="left">10%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-8.84</td>
+<td align="left">-8.84 – -8.84</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-7.66</td>
+<td align="left">-7.66 – -7.66</td>
+<td align="left">14%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2080s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">-7.04</td>
+<td align="left">-7.04 – -7.04</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">-7.04</td>
+<td align="left">-7.04 – -7.04</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">Historical</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">-6.60</td>
+<td align="left">-6.6 – -6.6</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">-6.60</td>
+<td align="left">-6.6 – -6.6</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">Historical</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">-6.60</td>
+<td align="left">-6.6 – -6.6</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">-6.60</td>
+<td align="left">-6.6 – -6.6</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">Historical</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">-6.60</td>
+<td align="left">-6.6 – -6.6</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">-6.60</td>
+<td align="left">-6.6 – -6.6</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">Historical</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">-6.60</td>
+<td align="left">-6.6 – -6.6</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">-6.60</td>
+<td align="left">-6.6 – -6.6</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">Historical</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">-6.60</td>
+<td align="left">-6.6 – -6.6</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">-6.60</td>
+<td align="left">-6.6 – -6.6</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2020s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-5.61</td>
+<td align="left">-5.61 – -5.61</td>
+<td align="left">10%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2020s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-5.42</td>
+<td align="left">-5.42 – -5.42</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-4.47</td>
+<td align="left">-4.47 – -4.47</td>
+<td align="left">21%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2050s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-4.25</td>
+<td align="left">-4.25 – -4.25</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-4.25</td>
+<td align="left">-4.25 – -4.25</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2050s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-3.96</td>
+<td align="left">-3.96 – -3.96</td>
+<td align="left">20%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">-2.98</td>
+<td align="left">-2.98 – -2.98</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">-2.27</td>
+<td align="left">-2.27 – -2.27</td>
+<td align="left">27%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2080s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">-0.83</td>
+<td align="left">-0.83 – -0.83</td>
+<td align="left">22%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">2.49</td>
+<td align="left">2.49 – 2.49</td>
+<td align="left">17%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2080s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">3.35</td>
+<td align="left">3.35 – 3.35</td>
+<td align="left">27%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2080s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">3.47</td>
+<td align="left">3.47 – 3.47</td>
+<td align="left">28%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2050s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">4.40</td>
+<td align="left">4.4 – 4.4</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2080s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">4.83</td>
+<td align="left">4.83 – 4.83</td>
+<td align="left">17%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2020s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">6.07</td>
+<td align="left">6.07 – 6.07</td>
+<td align="left">11%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2020s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">6.42</td>
+<td align="left">6.42 – 6.42</td>
+<td align="left">14%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">7.11</td>
+<td align="left">7.11 – 7.11</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2050s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">10.49</td>
+<td align="left">10.49 – 10.49</td>
+<td align="left">11%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2080s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">11.51</td>
+<td align="left">11.51 – 11.51</td>
+<td align="left">30%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2020s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">12.20</td>
+<td align="left">12.2 – 12.2</td>
+<td align="left">18%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">13.34</td>
+<td align="left">13.34 – 13.34</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2050s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">14.72</td>
+<td align="left">14.72 – 14.72</td>
+<td align="left">20%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">14.72</td>
+<td align="left">14.72 – 14.72</td>
+<td align="left">20%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">16.28</td>
+<td align="left">16.28 – 16.28</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2020s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">16.34</td>
+<td align="left">16.34 – 16.34</td>
+<td align="left">22%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2080s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">17.48</td>
+<td align="left">17.48 – 17.48</td>
+<td align="left">35%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">17.48</td>
+<td align="left">17.48 – 17.48</td>
+<td align="left">35%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2080s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">17.54</td>
+<td align="left">17.54 – 17.54</td>
+<td align="left">25%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">17.54</td>
+<td align="left">17.54 – 17.54</td>
+<td align="left">25%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">Historical</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">19.26</td>
+<td align="left">19.26 – 19.26</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">Historical</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">19.26</td>
+<td align="left">19.26 – 19.26</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">Historical</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">19.26</td>
+<td align="left">19.26 – 19.26</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">Historical</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">19.26</td>
+<td align="left">19.26 – 19.26</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">Historical</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">19.26</td>
+<td align="left">19.26 – 19.26</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2050s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">19.64</td>
+<td align="left">19.64 – 19.64</td>
+<td align="left">26%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2050s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">20.25</td>
+<td align="left">20.25 – 20.25</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">20.25</td>
+<td align="left">20.25 – 20.25</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2020s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">21.76</td>
+<td align="left">21.76 – 21.76</td>
+<td align="left">14%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2020s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">22.99</td>
+<td align="left">22.99 – 22.99</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2050s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">31.45</td>
+<td align="left">31.45 – 31.45</td>
+<td align="left">32%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">31.45</td>
+<td align="left">31.45 – 31.45</td>
+<td align="left">32%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2020s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">32.15</td>
+<td align="left">32.15 – 32.15</td>
+<td align="left">21%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2080s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">32.25</td>
+<td align="left">32.25 – 32.25</td>
+<td align="left">18%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">32.25</td>
+<td align="left">32.25 – 32.25</td>
+<td align="left">18%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">Historical</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">32.25</td>
+<td align="left">32.25 – 32.25</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">32.25</td>
+<td align="left">32.25 – 32.25</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">Historical</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">32.25</td>
+<td align="left">32.25 – 32.25</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">32.25</td>
+<td align="left">32.25 – 32.25</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">Historical</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">32.25</td>
+<td align="left">32.25 – 32.25</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">32.25</td>
+<td align="left">32.25 – 32.25</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">Historical</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">32.25</td>
+<td align="left">32.25 – 32.25</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">32.25</td>
+<td align="left">32.25 – 32.25</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">Historical</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">32.25</td>
+<td align="left">32.25 – 32.25</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">48</td>
+<td align="right">32.25</td>
+<td align="left">32.25 – 32.25</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2020s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">32.63</td>
+<td align="left">32.63 – 32.63</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2050s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">32.89</td>
+<td align="left">32.89 – 32.89</td>
+<td align="left">18%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2080s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">33.33</td>
+<td align="left">33.33 – 33.33</td>
+<td align="left">28%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2080s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">34.00</td>
+<td align="left">34 – 34</td>
+<td align="left">26%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">34.69</td>
+<td align="left">34.69 – 34.69</td>
+<td align="left">21%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2020s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">39.10</td>
+<td align="left">39.1 – 39.1</td>
+<td align="left">17%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">39.10</td>
+<td align="left">39.1 – 39.1</td>
+<td align="left">17%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2050s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">39.26</td>
+<td align="left">39.26 – 39.26</td>
+<td align="left">21%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2080s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">46.16</td>
+<td align="left">46.16 – 46.16</td>
+<td align="left">30%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">25</td>
+<td align="right">46.16</td>
+<td align="left">46.16 – 46.16</td>
+<td align="left">30%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2020s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">51.21</td>
+<td align="left">51.21 – 51.21</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2050s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">53.37</td>
+<td align="left">53.37 – 53.37</td>
+<td align="left">24%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">53.37</td>
+<td align="left">53.37 – 53.37</td>
+<td align="left">24%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">recruitment</td>
+<td align="right">24</td>
+<td align="right">55.46</td>
+<td align="left">55.46 – 55.46</td>
+<td align="left">15%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2080s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-11.23</td>
+<td align="left">-11.23 – -11.23</td>
+<td align="left">35%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-11.23</td>
+<td align="left">-11.23 – -11.23</td>
+<td align="left">35%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2050s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-10.83</td>
+<td align="left">-10.83 – -10.83</td>
+<td align="left">32%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-10.83</td>
+<td align="left">-10.83 – -10.83</td>
+<td align="left">32%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2080s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-9.10</td>
+<td align="left">-9.1 – -9.1</td>
+<td align="left">30%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-9.10</td>
+<td align="left">-9.1 – -9.1</td>
+<td align="left">30%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2080s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-8.42</td>
+<td align="left">-8.42 – -8.42</td>
+<td align="left">28%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2080s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-8.33</td>
+<td align="left">-8.33 – -8.33</td>
+<td align="left">27%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2080s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-8.23</td>
+<td align="left">-8.23 – -8.23</td>
+<td align="left">30%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2050s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-8.19</td>
+<td align="left">-8.19 – -8.19</td>
+<td align="left">26%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2080s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-8.05</td>
+<td align="left">-8.05 – -8.05</td>
+<td align="left">28%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-8.03</td>
+<td align="left">-8.03 – -8.03</td>
+<td align="left">21%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2080s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-7.76</td>
+<td align="left">-7.76 – -7.76</td>
+<td align="left">26%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2080s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-7.73</td>
+<td align="left">-7.73 – -7.73</td>
+<td align="left">25%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-7.73</td>
+<td align="left">-7.73 – -7.73</td>
+<td align="left">25%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2050s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-7.67</td>
+<td align="left">-7.67 – -7.67</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-7.67</td>
+<td align="left">-7.67 – -7.67</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2050s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-7.50</td>
+<td align="left">-7.5 – -7.5</td>
+<td align="left">20%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-7.50</td>
+<td align="left">-7.5 – -7.5</td>
+<td align="left">20%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-7.47</td>
+<td align="left">-7.47 – -7.47</td>
+<td align="left">27%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2050s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-7.46</td>
+<td align="left">-7.46 – -7.46</td>
+<td align="left">20%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-7.44</td>
+<td align="left">-7.44 – -7.44</td>
+<td align="left">24%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2020s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-7.29</td>
+<td align="left">-7.29 – -7.29</td>
+<td align="left">22%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2080s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-7.24</td>
+<td align="left">-7.24 – -7.24</td>
+<td align="left">18%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-7.24</td>
+<td align="left">-7.24 – -7.24</td>
+<td align="left">18%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2080s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-7.16</td>
+<td align="left">-7.16 – -7.16</td>
+<td align="left">22%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2050s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-7.13</td>
+<td align="left">-7.13 – -7.13</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-7.03</td>
+<td align="left">-7.03 – -7.03</td>
+<td align="left">21%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-6.99</td>
+<td align="left">-6.99 – -6.99</td>
+<td align="left">17%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2080s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-6.80</td>
+<td align="left">-6.8 – -6.8</td>
+<td align="left">26%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2050s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-6.74</td>
+<td align="left">-6.74 – -6.74</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2080s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-6.71</td>
+<td align="left">-6.71 – -6.71</td>
+<td align="left">17%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2020s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-6.60</td>
+<td align="left">-6.6 – -6.6</td>
+<td align="left">21%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">2020s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-6.50</td>
+<td align="left">-6.5 – -6.5</td>
+<td align="left">18%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2050s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-6.39</td>
+<td align="left">-6.39 – -6.39</td>
+<td align="left">24%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-6.39</td>
+<td align="left">-6.39 – -6.39</td>
+<td align="left">24%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2050s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-6.07</td>
+<td align="left">-6.07 – -6.07</td>
+<td align="left">15%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-6.04</td>
+<td align="left">-6.04 – -6.04</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-6.00</td>
+<td align="left">-6 – -6</td>
+<td align="left">14%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-5.83</td>
+<td align="left">-5.83 – -5.83</td>
+<td align="left">24%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-5.75</td>
+<td align="left">-5.75 – -5.75</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2080s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-5.39</td>
+<td align="left">-5.39 – -5.39</td>
+<td align="left">17%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-5.39</td>
+<td align="left">-5.39 – -5.39</td>
+<td align="left">17%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2050s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-5.37</td>
+<td align="left">-5.37 – -5.37</td>
+<td align="left">15%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-5.37</td>
+<td align="left">-5.37 – -5.37</td>
+<td align="left">15%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2050s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-5.28</td>
+<td align="left">-5.28 – -5.28</td>
+<td align="left">18%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2080s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-5.25</td>
+<td align="left">-5.25 – -5.25</td>
+<td align="left">23%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2020s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-5.20</td>
+<td align="left">-5.2 – -5.2</td>
+<td align="left">17%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-5.20</td>
+<td align="left">-5.2 – -5.2</td>
+<td align="left">17%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2080s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-4.95</td>
+<td align="left">-4.95 – -4.95</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2080s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">25</td>
+<td align="right">-4.95</td>
+<td align="left">-4.95 – -4.95</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2020s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-4.93</td>
+<td align="left">-4.93 – -4.93</td>
+<td align="left">14%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2050s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-4.84</td>
+<td align="left">-4.84 – -4.84</td>
+<td align="left">21%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-4.77</td>
+<td align="left">-4.77 – -4.77</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2050s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-4.62</td>
+<td align="left">-4.62 – -4.62</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-4.62</td>
+<td align="left">-4.62 – -4.62</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2020s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-4.59</td>
+<td align="left">-4.59 – -4.59</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2020s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-4.48</td>
+<td align="left">-4.48 – -4.48</td>
+<td align="left">10%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2020s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-4.18</td>
+<td align="left">-4.18 – -4.18</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">2020s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-4.05</td>
+<td align="left">-4.05 – -4.05</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-4.05</td>
+<td align="left">-4.05 – -4.05</td>
+<td align="left">13%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2050s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-4.02</td>
+<td align="left">-4.02 – -4.02</td>
+<td align="left">11%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-3.95</td>
+<td align="left">-3.95 – -3.95</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2020s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-3.78</td>
+<td align="left">-3.78 – -3.78</td>
+<td align="left">14%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2050s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-3.74</td>
+<td align="left">-3.74 – -3.74</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2050s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-3.74</td>
+<td align="left">-3.74 – -3.74</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">2020s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-3.39</td>
+<td align="left">-3.39 – -3.39</td>
+<td align="left">10%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-3.39</td>
+<td align="left">-3.39 – -3.39</td>
+<td align="left">10%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-3.38</td>
+<td align="left">-3.38 – -3.38</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">2020s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-3.08</td>
+<td align="left">-3.08 – -3.08</td>
+<td align="left">16%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2020s</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-3.08</td>
+<td align="left">-3.08 – -3.08</td>
+<td align="left">11%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2020s</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-2.96</td>
+<td align="left">-2.96 – -2.96</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-2.78</td>
+<td align="left">-2.78 – -2.78</td>
+<td align="left">15%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">2020s</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-2.61</td>
+<td align="left">-2.61 – -2.61</td>
+<td align="left">10%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">2020s</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">24</td>
+<td align="right">-2.61</td>
+<td align="left">-2.61 – -2.61</td>
+<td align="left">10%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">Historical</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.85</td>
+<td align="left">-1.85 – -1.85</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.85</td>
+<td align="left">-1.85 – -1.85</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">Historical</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.85</td>
+<td align="left">-1.85 – -1.85</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.85</td>
+<td align="left">-1.85 – -1.85</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">Historical</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.85</td>
+<td align="left">-1.85 – -1.85</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.85</td>
+<td align="left">-1.85 – -1.85</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">Historical</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.85</td>
+<td align="left">-1.85 – -1.85</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.85</td>
+<td align="left">-1.85 – -1.85</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">Historical</td>
+<td align="left">Longest Drought Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.85</td>
+<td align="left">-1.85 – -1.85</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Drought Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.85</td>
+<td align="left">-1.85 – -1.85</td>
+<td align="left">9%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">Historical</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.37</td>
+<td align="left">-1.37 – -1.37</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">Historical</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.37</td>
+<td align="left">-1.37 – -1.37</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">Historical</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.37</td>
+<td align="left">-1.37 – -1.37</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">Historical</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.37</td>
+<td align="left">-1.37 – -1.37</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">Historical</td>
+<td align="left">Climate Change Only</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">-1.37</td>
+<td align="left">-1.37 – -1.37</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">Historical</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">0.06</td>
+<td align="left">0.06 – 0.06</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">CT</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">0.06</td>
+<td align="left">0.06 – 0.06</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HD</td>
+<td align="left">Historical</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">0.06</td>
+<td align="left">0.06 – 0.06</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HD</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">0.06</td>
+<td align="left">0.06 – 0.06</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">HW</td>
+<td align="left">Historical</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">0.06</td>
+<td align="left">0.06 – 0.06</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">HW</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">0.06</td>
+<td align="left">0.06 – 0.06</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WD</td>
+<td align="left">Historical</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">0.06</td>
+<td align="left">0.06 – 0.06</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WD</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">0.06</td>
+<td align="left">0.06 – 0.06</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="odd">
+<td align="left">WW</td>
+<td align="left">Historical</td>
+<td align="left">Longest Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">0.06</td>
+<td align="left">0.06 – 0.06</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+<tr class="even">
+<td align="left">WW</td>
+<td align="left">Historical</td>
+<td align="left">Most Intense Pluvial Period</td>
+<td align="left">survival</td>
+<td align="right">48</td>
+<td align="right">0.06</td>
+<td align="left">0.06 – 0.06</td>
+<td align="left">12%</td>
+<td align="left">UNSUPPORTED - gate failed</td>
+</tr>
+</tbody>
+</table>
+<div id="which-days-drive-each-scenario" class="section level2">
+<h2>Which days drive each scenario?</h2>
+<p><img src="figures/08_f8b.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p>A scenario can act because flow changes on days the population is
+sensitive to, or because it changes greatly on days it is not. The
+multiplier alone cannot tell those apart, and they call for different
+management responses.</p>
+<p><img src="figures/08_f8c.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="b.-equilibrium-carrying-capacity-rule-curve-arm"
+class="section level1">
+<h1>4b. Equilibrium carrying capacity (rule-curve arm)</h1>
+<p>A separate analysis answering a different question. Sections 3 and 4
+ask <strong>when</strong> water helps and what a scenario does over a
+30-year projection. This asks: if the <strong>summer mean</strong> flow
+settles at a new level, where does the population settle?</p>
+<p>Two differences from everything above, both deliberate. It reads the
+<strong>flow-informed</strong> IPM, because it propagates the flow
+response that model already fitted rather than estimating a new one. And
+it uses its own standardization — the z of the annual summer mean, on
+exactly the scale the IPM was fitted with.</p>
+<blockquote>
+<p><strong>NOT AVAILABLE</strong> — run <code>R/10_rulecurve.R</code>.
+It needs the FishCast export
+(<code>&lt;SITE&gt;_rulecurve_inputs.rds</code>) and the flow-informed
+posterior it names.</p>
+</blockquote>
+<pre><code>## 
+## &gt; **Figure not available** — run the corresponding script.</code></pre>
+<pre><code>## 
+## &gt; **Figure not available** — run the corresponding script.</code></pre>
+<pre><code>## 
+## &gt; **Figure not available** — run the corresponding script.</code></pre>
+</div>
+<div id="among-sites" class="section level1">
+<h1>5. Among sites</h1>
+<p>The cross-site synthesis lives on its own page: <strong><a
+href="results_among_sites.html">Among sites</a></strong>. It compares
+the daily curves across populations, which is the evidence base for the
+population-ecology question, and it is not repeated here.</p>
+</div>
+<div id="limitations" class="section level1">
+<h1>6. Limitations</h1>
+<ul>
+<li><p><strong>Rearing-year effect.</strong> The flow lag (2) is shorter
+than the recruit lag (3), so the hydrograph is the age-0 rearing year,
+not the spawning year. Spawning-year conditions are not represented, and
+β_R(d) should not be read as a spawning effect.</p></li>
+<li><p><strong>Incubation spans the year boundary.</strong> On a
+calendar axis, December of the spawning year and January–March of the
+rearing year fall in different lag years. A mechanism operating
+continuously through incubation is split between them and will read
+weakly in both (<code>docs/notes/CALENDAR_AXIS.md</code>).</p></li>
+<li><p><strong>Growth is frozen.</strong> Mean mass at age is held at
+its launch value, so production results capture the flow-on-abundance
+pathway only, not temperature-mediated growth.</p></li>
+<li><p><strong>Local linearity.</strong> Effects are exact under the
+fitted model but the model is linear in the standardized anomaly, so
+large extrapolations beyond the observed flow range are least reliable —
+which is where the wettest and driest scenarios sit.</p></li>
+<li><p><strong>Resolution.</strong> Where the best-day interval exceeds
+90 days, guidance is seasonal. This is a limit of a ~40-year annual
+record, not of the method.</p></li>
+<li><p><strong>Stock enters twice.</strong> log(R/S) contains −log(S)
+and S is also the density predictor, so shared posterior uncertainty
+biases the density coefficient downward (Walters &amp; Ludwig 1981). The
+flow curves are affected only through the correlation between stock and
+the flow predictors, which is reported by script 03.</p></li>
+</ul>
+<hr />
+<p><em>Every number and figure on this page is read from
+<code>output/</code>. Regenerate with <code>source("RUN_ALL.R")</code>
+then <code>source("render_site.R")</code>.</em></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

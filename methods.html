@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Materials and Methods</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Daily Flow & Montana Trout</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Overview</a>
+</li>
+<li>
+  <a href="methods.html">Methods</a>
+</li>
+<li>
+  <a href="results.html">Results</a>
+</li>
+<li>
+  <a href="results_among_sites.html">Among sites</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/YOUR-USERNAME/WH_BOR_Trout">
+    <span class="fa fa-github"></span>
+     
+    Source
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Materials and Methods</h1>
+<h3 class="subtitle">Daily streamflow and brown trout population
+processes</h3>
+
+</div>
+
+
+<!--
+PNAS Research Articles place Materials and Methods after the Results and cap the
+main text near 4,000 words including everything, so a Methods section much past
+~1,300 words will not fit. Detail that does not fit belongs in SI Appendix, which
+is the second half of this document.
+
+Sections marked [VERIFY] contain an assumption that could not be checked from the
+code. Each is listed in PROJECT_LOG.md as an open item.
+-->
+<div id="materials-and-methods" class="section level1">
+<h1>Materials and Methods</h1>
+<div id="study-system" class="section level2">
+<h2>Study system</h2>
+<p>Brown trout (<em>Salmo trutta</em>) populations in regulated Montana
+rivers, with the Madison River below Ennis Lake (USGS gage 06041000) as
+the focal site. Discharge is managed under Bureau of Reclamation
+operations. Analysis covers 33 recruit-years.</p>
+<p><em>[VERIFY: state the gage-to-reach distance, any intervening
+accretion, and the long-term monitoring design — reach lengths, sampling
+season, years — with a citation to the Montana Fish, Wildlife and Parks
+program.]</em></p>
+</div>
+<div id="population-model-and-the-response-variables"
+class="section level2">
+<h2>Population model and the response variables</h2>
+<p>Abundance and demographic rates were estimated with a Bayesian
+age-structured integrated population model fitted in JAGS.
+Mark–recapture abundance estimation is conducted separately, under a
+protocol agreed with Montana Fish, Wildlife and Parks so that estimates
+match published values. The model tracks age-2 recruits (<span
+class="math inline">\(N_2\)</span>), age-3 (<span
+class="math inline">\(N_3\)</span>), and an age-4-plus group (<span
+class="math inline">\(N_4\)</span>), with Ricker recruitment on adult
+biomass</p>
+<p><span class="math display">\[\log R_t = \alpha_0 + \log B_{t-\ell} -
+b\,B_{t-\ell} - \tfrac{1}{2}\sigma_R^2 + \varepsilon_t\]</span></p>
+<p>where <span class="math inline">\(B_t = N_{3,t}w_3 +
+N_{4,t}w_4\)</span> is standing adult biomass in grams and <span
+class="math inline">\(\ell = 3\)</span> years, and density-dependent
+apparent survival</p>
+<p><span class="math display">\[\mathrm{logit}(s_t) = \phi_0 +
+\phi_N\,N_{\mathrm{all},t-1}/100 + \zeta_t .\]</span></p>
+<p><strong>The posterior used here contains no flow covariate.</strong>
+This is the circularity guard: were abundance estimated under a
+flow-informed model, a flow signal would be embedded in the response
+before any regression was fitted.</p>
+<p>Two responses were constructed, each on all 20000 retained posterior
+draws so that abundance uncertainty propagates rather than being
+collapsed to a point estimate:</p>
+<p><strong>Recruitment.</strong> <span class="math inline">\(y_t^{(m)} =
+\log R_t^{(m)} - \log B_{t-\ell}^{(m)}\)</span>. Stock is adult
+<strong>biomass</strong>, matching the IPM’s own Ricker.</p>
+<p><strong>Survival.</strong> The process deviate <span
+class="math inline">\(\varepsilon_t^{(m)} = \mathrm{logit}(s_t^{(m)}) -
+\phi_0^{(m)} - \phi_N^{(m)} N_{\mathrm{all},t-1}^{(m)}/100\)</span>,
+i.e. the part of survival the density-dependent null model leaves
+unexplained. Regressing survival itself on discharge would re-attribute
+density-driven variation to flow, because flow drives recruitment and
+recruitment drives density at a lag.</p>
+</div>
+<div id="hydrograph-standardization" class="section level2">
+<h2>Hydrograph standardization</h2>
+<p>Daily discharge was log-transformed, centred on a day-of-year
+climatology, and scaled by a single global standard deviation:</p>
+<p><span class="math display">\[x_y(t) = \frac{\log Q_y(t) -
+\bar{c}(t)}{\sigma},\qquad \bar{c}(t) = \frac{1}{n_y}\sum_y \log
+Q_y(t).\]</span></p>
+<p>The scale is global rather than day-specific; a per-day scale would
+inflate low-variance winter days relative to the snowmelt peak. Curves
+are placed on a <strong>calendar-year</strong> axis (1 January – 31
+December). This axis was chosen for interpretability: results are
+reported to water managers, irrigators and lease-holders who work in
+calendar years, and a day index anchored to 1 October is a persistent
+source of confusion outside the hydrologic community.</p>
+<p>The trade-off is stated plainly. Brown trout spawn in autumn and
+emerge the following spring, so the spawning-to-emergence interval
+straddles the calendar boundary and no single calendar year contains all
+of it. The analysis accommodates this through the site-specific flow lag
+rather than through the axis: a lag equal to the recruit lag places the
+hydrograph in the spawning year, while a shorter lag places it in the
+rearing year, and the integrated population model selected between these
+hypotheses independently at each site. A consequence is that a mechanism
+operating continuously across the turn of the year — incubation from
+December through March — is split between two lag years and would be
+detected only weakly in either. Years without a complete 365-day record
+were excluded.</p>
+</div>
+<div id="functional-regression" class="section level2">
+<h2>Functional regression</h2>
+<p>For each posterior draw the response was regressed on the full daily
+hydrograph,</p>
+<p><span class="math display">\[y_t^{(m)} = \mu^{(m)} + \gamma^{(m)}
+S_{t-\ell} + \sum_{d=1}^{365}\beta^{(m)}(d)\,x_{t}(d) +
+e_t^{(m)},\]</span></p>
+<p>with <span class="math inline">\(\beta(\cdot)\)</span> expanded in
+the leading functional principal components of the standardized
+hydrographs. Functional PCA was computed on the training curves,
+components were retained until they jointly explained 90% of hydrograph
+variance, and only those individually explaining at least 1%, subject to
+a maximum of 6. The response was regressed on the retained component
+scores by ordinary least squares and the coefficients mapped back to the
+daily domain as <span class="math inline">\(\beta(d) = \sum_k b_k
+\phi_k(d)\)</span>. At BigHole.Melrose this retained <strong>6
+components</strong>, spanning 79.2% of hydrograph variance.</p>
+<p>The component cap, rather than the variance rule, determined <span
+class="math inline">\(K\)</span> at this site; the reported <span
+class="math inline">\(K\)</span> should therefore be read as a ceiling
+imposed by the analyst rather than a property of the data.</p>
+<p>Component selection is unsupervised with respect to the response:
+components are ordered by variance in the predictor and only then tested
+against recruitment. A mode of flow variation carrying little variance
+but a strong biological signal would be discarded before it was tested
+(Jolliffe 1982). We therefore report the incremental predictive
+contribution of the discarded components in SI, and note that the
+covariance of <span class="math inline">\(\hat\beta\)</span> is of rank
+<span class="math inline">\(K\)</span> and so excludes uncertainty in
+the truncation itself.</p>
+<p>The hydrograph paired with each recruit year is <strong>not assumed
+to be the spawning year</strong>. The integrated population model’s
+indicator-variable selection chose a flow lag independently at each
+site, and that choice is carried through here: a lag equal to the
+recruit lag identifies spawning-year conditions, while a shorter lag
+identifies age-0 rearing-year conditions. On a calendar axis these are
+distinct years and the mapping is direct: the hydrograph for recruit
+year <span class="math inline">\(t\)</span> is that of calendar year
+<span class="math inline">\(t - L\)</span>, where <span
+class="math inline">\(L\)</span> is the selected lag. The selected lag
+is reported per site rather than assumed
+(<code>derived_stats.csv</code>, <code>flow_lag_*</code>).</p>
+<p>The <strong>full 365 × 365 covariance</strong> of <span
+class="math inline">\(\hat\beta\)</span> was retained. Adjacent days are
+strongly correlated, so every statement about <em>where</em> the curve
+is high — bands, contrasts, the location of extrema — requires the
+off-diagonal terms.</p>
+<p>Survival lags of 0 and 1 years were fitted separately, because adult
+survival responds to contemporaneous or prior-year conditions rather
+than to conditions three years earlier; the selected lag was 1 and its
+permutation <span class="math inline">\(p\)</span>-value is
+Bonferroni-adjusted for the number of lags examined.</p>
+</div>
+<div id="a-pre-registered-confirmatory-model" class="section level2">
+<h2>A pre-registered confirmatory model</h2>
+<p>Because a 365-point curve estimated from 33 annual observations
+spends degrees of freedom on structure the data may not support, the
+same responses were also regressed on the mean standardized anomaly
+within four pre-registered calendar-year windows — autumn spawning,
+overwinter incubation, spring snowmelt, summer base flow (1–90; 91–181;
+182–273; 274–365 on the day of year). This four-parameter model is the
+powered confirmatory test of whether flow matters at all; <span
+class="math inline">\(\beta(d)\)</span> then describes when. Both were
+scored on identical folds against identical nulls.</p>
+</div>
+<div id="validation" class="section level2">
+<h2>Validation</h2>
+<p>Predictive skill was assessed by <strong>blocked</strong>
+cross-validation holding out contiguous 5-year runs. Leave-one-year-out
+validation is inappropriate here: interannual flow is autocorrelated, so
+a held-out hydrograph is closely approximated by retained neighbours and
+the fold measures interpolation rather than prediction. Both are
+reported so the magnitude of that inflation is visible.</p>
+<p>Because the null sampling distribution of cross-validated <span
+class="math inline">\(R^2\)</span> at this sample size is neither
+centred at zero nor symmetric, skill was referred to a permutation null
+formed by circularly shifting the response against the hydrograph
+series, preserving the autocorrelation of both series and breaking only
+their alignment. Random shuffling would destroy the autocorrelation and
+return anticonservative <span class="math inline">\(p\)</span>-values.
+With 33 years the finest resolvable <span
+class="math inline">\(p\)</span>-value is approximately 0.030.</p>
+<p>Neither specification improved on the series mean out of sample. We
+report the null: seasonal hydrograph structure has no detectable effect
+on the vital rates at this site over the available record. Curves are
+presented for completeness and are labelled unsupported.</p>
+</div>
+<div id="from-βd-to-management-guidance" class="section level2">
+<h2>From β(d) to management guidance</h2>
+<p>β(d) is the effect of a one-standard-deviation standardized log
+anomaly. Water is released in cfs. Adding <span
+class="math inline">\(\Delta Q\)</span> on day <span
+class="math inline">\(d\)</span> changes the flow signal by</p>
+<p><span class="math display">\[\Delta\eta(d) =
+\frac{\beta(d)}{\sigma}\log\!\left(1 + \frac{\Delta
+Q}{\bar{Q}(d)}\right),\]</span></p>
+<p>where <span class="math inline">\(\bar{Q}(d)\)</span> is the
+geometric-mean baseline discharge on that day, so the benefit per unit
+of water is approximately <span
+class="math inline">\(\beta(d)/[\sigma\bar{Q}(d)]\)</span>. Because
+baseline discharge spans more than an order of magnitude across the
+calendar year, this <strong>reshapes</strong> the curve: identical water
+is a large proportional change at base flow and a negligible one at the
+snowmelt peak. We therefore distinguish throughout between β(d), the
+ecological sensitivity, and <span class="math inline">\(s(d)\)</span>,
+the management sensitivity. The logarithm also encodes diminishing
+returns, so the model implies that distributing a fixed volume over a
+longer window outperforms a short pulse.</p>
+<p>For a leased volume <span class="math inline">\(V\)</span> released
+evenly over a window <span class="math inline">\(W\)</span>, total
+benefit is <span class="math inline">\(\sigma^{-1}\sum_{d\in
+W}\beta(d)\log(1 + \kappa V/[|W|\bar Q(d)])\)</span>, maximised over
+window start and length.</p>
+<p>The unconstrained optimum is of limited operational use, because
+water cannot be moved at arbitrary times of year. We therefore repeated
+the optimisation restricted to the season in which allocation decisions
+are actually made (irrigation and allocation season, 01 May to 31 Oct).
+This is a constrained optimisation rather than a restricted plot: the
+best feasible day is an argmax over a subset and may differ from the
+global optimum; its credible interval is recomputed within the subset
+rather than truncated, because a simulation whose global peak falls
+outside the season relocates to its best feasible day rather than
+dropping out; and only release windows lying wholly inside the season
+are admitted.</p>
+<p>We report the resulting <strong>cost of the constraint</strong> — the
+benefit at the best feasible day as a fraction of the benefit at the
+unconstrained optimum. A low value indicates that the biologically most
+valuable timing lies outside any window the allocation system can reach,
+which is a statement about institutional timing rather than about water
+volume.</p>
+</div>
+<div id="resolution" class="section level2">
+<h2>Resolution</h2>
+<p>The location of a maximum was <strong>not</strong> read from the
+fitted curve. Whole curves were simulated 10000 times from the combined
+distribution — a posterior draw for abundance uncertainty plus a
+multivariate normal deviate using the full covariance for regression
+uncertainty — and the day maximising <span
+class="math inline">\(s(d)\)</span> recorded for each. The 80% interval
+of that distribution is reported as the resolvable window. Its width is
+a property of the record rather than a modelling choice. Simultaneous
+confidence bands were obtained from the same simulations as the 95th
+percentile of the maximum standardized deviation, giving a critical
+value of 3.18 rather than 1.96 (Ruppert, Wand &amp; Carroll 2003
+§6.5).</p>
+</div>
+<div id="total-production" class="section level2">
+<h2>Total production</h2>
+<p>Production is a consequence of recruitment and survival rather than a
+directly observed response, so it was not regressed on flow. Instead,
+flow perturbations were propagated through the age-structured model.
+Total biomass follows the exact identity <span class="math inline">\(B_t
+= B_{t-1} + I_t + G_t - M_t\)</span>, partitioning annual change into
+recruitment input, somatic growth, and mortality loss, with the
+age-4-plus group valued at its abundance-weighted mean mass. There is no
+harvest term in this model, so surplus production equals the change in
+biomass. The identity residual is computed for every draw and year and
+is zero to machine precision by construction.</p>
+<p>Sensitivity was computed as a paired numerical derivative: for each
+30-day block the projection was run with and without a 25 cfs release
+under <strong>common random numbers</strong>, so the difference reflects
+the release rather than Monte Carlo noise. Runs with each pathway
+enabled separately, and both together, isolate the interaction — the
+compounding of a survival gain into future spawning stock, which summing
+the two curves would miss. Mean mass at age is held at its launch value,
+so results capture the flow-on-abundance pathway and
+<strong>not</strong> temperature-mediated changes in growth.</p>
+</div>
+<div id="scenario-projections" class="section level2">
+<h2>Scenario projections</h2>
+<p>Bureau of Reclamation downscaled daily discharge was standardized
+against the <strong>training</strong> climatology and scale, so
+projected and observed hydrographs share an axis; standardizing each
+scenario against itself would re-centre a uniformly drier future to
+appear average and eliminate the effect. Scenario effects are <span
+class="math inline">\(\eta = \sum_d \beta(d)[x_{\text{scen}}(d) -
+\bar{x}_{\text{hist}}(d)]\)</span>, and are additionally decomposed by
+day to identify <em>which</em> days drive a scenario’s effect — a
+scenario may act because flow changes on days the population is
+sensitive to, or because it changes greatly on days it is not. The
+fraction of scenario days falling outside the training range is reported
+per scenario.</p>
+<p><em>[VERIFY: the calendar-year alignment. Recruit year <span
+class="math inline">\(t\)</span> is paired with calendar year <span
+class="math inline">\(t-\ell+1\)</span>, on the reasoning that
+October–November spawning begins a calendar year. A one-year error
+shifts β(d) by a full year and remains invisible in the
+output.]</em></p>
+</div>
+<div id="equilibrium-carrying-capacity-under-sustained-flow-change"
+class="section level2">
+<h2>Equilibrium carrying capacity under sustained flow change</h2>
+<p>The preceding analyses treat flow as a perturbation and ask when it
+is most valuable. A separate question, and the one most often asked of
+reservoir operations, is where the population settles if summer flow
+shifts and stays shifted. We addressed this with a rule-curve analysis,
+run as an independent arm.</p>
+<p>Recruitment and survival were evaluated on a stable-age mapping from
+spawning stock to standing abundance, <span class="math inline">\(X =
+S/[s(1-s)]\)</span> and <span class="math inline">\(\mathrm{SSB} =
+S\,w(s)\)</span>, giving a closed-form replacement curve</p>
+<p><span class="math display">\[Y(X) = \frac{\exp\!\left(\alpha_0 + \log
+\mathrm{SSB} - b\,\mathrm{SSB} + \beta_1 z + \beta_2 z^2\right)}{1 -
+\mathrm{logit}^{-1}\!\left(\phi_0 + \phi_1 z + \phi_2 z^2 + \phi_N
+X/100\right)},\]</span></p>
+<p>where <span class="math inline">\(z\)</span> is the standardized mean
+summer discharge. Because survival does not depend on recruitment, <span
+class="math inline">\(Y\)</span> is available in closed form and needs
+no simulation. Carrying capacity <span class="math inline">\(K\)</span>
+is the descending intersection of <span
+class="math inline">\(Y(X)\)</span> with the replacement line <span
+class="math inline">\(Y = X\)</span>, located by linear interpolation;
+maximum surplus production is <span class="math inline">\(\max_X\,[Y(X)
+- X]\)</span>, refined parabolically. Both were computed for every
+posterior draw on a common deterministic grid, so that a scenario
+contrast reflects flow rather than resampling.</p>
+<p>Two features of this arm differ from the rest of the analysis and are
+deliberate. First, it uses the <strong>flow-informed</strong> integrated
+population model rather than the null fit, because it propagates the
+flow response that model estimated rather than estimating a new one; the
+circularity concern that motivates the null fit elsewhere does not
+arise. Second, its covariate is the standardized <em>annual mean</em>
+summer discharge on the scale the integrated model was fitted with,
+verified to reproduce that model’s own covariate to within <span
+class="math inline">\(10^{-10}\)</span>; the daily standardization used
+for <span class="math inline">\(\beta(d)\)</span> would place the
+recruitment and survival coefficients off-scale.</p>
+<p>We report the fraction of scenario-years falling outside the
+calibration range of <span class="math inline">\(z\)</span>, and the
+location of the vertex of each quadratic flow response. A vertex inside
+the observed range with downward curvature implies that the fitted
+response already peaks within the historical record.</p>
+<p><em>[VERIFY before submission: the stable-age weighting <span
+class="math inline">\(w(s)\)</span> has two conventions in the source
+implementation — standing spawning biomass, <span
+class="math inline">\(w = w_3 + [s/(1-s)]w_4\)</span>, and the
+alternative that weights deaths, <span class="math inline">\(w =
+(1-s)w_3 + s\,w_4\)</span>. The analysis selects between them by which
+reproduces the posterior’s own biomass series, not by preference. State
+which was used and the agreement obtained.]</em></p>
+</div>
+<div id="data-and-code-availability" class="section level2">
+<h2>Data and code availability</h2>
+<p>All code, standardization constants, and the scripts regenerating
+every figure and quoted value are archived at <em>[REPOSITORY DOI]</em>.
+Daily discharge is available from the USGS National Water Information
+System (gage 06041000).</p>
+<hr />
+</div>
+</div>
+<div id="si-appendix" class="section level1">
+<h1>SI Appendix</h1>
+<p><strong>S1. Circularity guard.</strong> Why the flow-naive posterior
+is required.</p>
+<p><strong>S2. Estimator comparison.</strong> Daily β(d) against the
+four-window model on identical folds and nulls, with leave-one-out
+values shown alongside and labelled as interpolation skill.</p>
+<p><strong>S3. Resolution.</strong> Full argmax distributions; the
+effective-degrees-of-freedom heuristic against the simulation-based
+window width.</p>
+<p><strong>S4. Contrasts.</strong> Pairwise <span
+class="math inline">\(P[s(d_1) &gt; s(d_2)]\)</span> using the full
+covariance, with the independence-assuming version for comparison.</p>
+<p><strong>S5. Survival lag sweep.</strong> All lags with unadjusted and
+adjusted <span class="math inline">\(p\)</span>-values.</p>
+<p><strong>S6. Production budget verification.</strong> Maximum relative
+identity residual across all draws, years, and scenarios.</p>
+<p><strong>S6b. Allocation-season constraint.</strong> Best feasible
+release day and its interval recomputed within the season, against the
+unconstrained optimum; the fraction of achievable benefit retained; and
+the flatness of the benefit surface across feasible start dates, which
+determines whether timing is worth negotiating over.</p>
+<p><strong>S6c. Rule-curve arm.</strong> Verification that the
+summer-mean covariate reproduces the integrated model’s own covariate;
+agreement between the stable-age geometry and the posterior biomass
+series under both weighting conventions; <span
+class="math inline">\(K\)</span> and <span
+class="math inline">\(MS\)</span> by scenario-year with the fraction of
+draws in which the replacement curve fails to cross the 1:1 line;
+quadratic vertex locations relative to the calibration range.</p>
+<p><strong>S7. Sensitivity analyses.</strong> Estimator (penalized
+versus functional principal components) and, for the latter, the
+component-selection rule and threshold
+(<code>fpc_diagnostics_rules.csv</code>); basis dimension; smoothing
+parameter fixed versus per-draw; <strong>the calendar-year domain
+against a water-year domain</strong>, which bears on whether an
+incubation signal spanning the year boundary is being split; stock
+covariate retained versus dropped; release size; and for the rule curve,
+clamped versus unclamped scenario <span
+class="math inline">\(z\)</span>.</p>
+<div id="si-figures" class="section level2">
+<h2>SI Figures</h2>
+<p>Standardization (Fig. 2a); baseline discharge and per-cfs leverage
+(Fig. 2b); between-year flow variation by day (Fig. 2d); variance
+decomposition of β(d) (Fig. 3c); permutation nulls (Fig. 5b); resolution
+diagnostics (Fig. 5c); simultaneous versus pointwise bands (Fig. 6a–b);
+pathway interaction (Fig. 7c); scenario day attribution (Fig. 8b–c).</p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Marra &amp; Wood (2012) <em>Scand. J. Stat.</em> 39:53–74 · Reiss et
+al. (2017) <em>Int. Stat. Rev.</em> 85:228–249 · Roberts et al. (2017)
+<em>Ecography</em> 40:913–929 · Ruppert, Wand &amp; Carroll (2003)
+<em>Semiparametric Regression</em> · Wood (2017) <em>Generalized
+Additive Models</em>, 2nd ed.</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
